@@ -6,6 +6,6 @@ EXPOSE 80
 STOPSIGNAL SIGTERM
 
 WORKDIR /www
-COPY www/* .
+COPY www/* ./
 CMD python3 -m http.server 80
 
