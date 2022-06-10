@@ -7,6 +7,5 @@ STOPSIGNAL SIGTERM
 
 WORKDIR /www
 COPY www/* ./
-ENTRYPOINT python3 -m http.server 80 &
-CMD cat
+CMD python3 -m http.server 80
 
