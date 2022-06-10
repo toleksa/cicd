@@ -1,0 +1,64 @@
+pipeline {
+    environment {
+        IMAGE = "toleksa/${JOB_NAME}"
+        CREDENTIALS = credentials('dockerhub')
+        SUBDIR = "src/python-http"
+    }
+    agent{
+        label ''
+    }
+    stages{
+        stage('Build Docker Image') {
+            stages{
+                stage('Checkout'){
+                    steps{
+                        git url: 'https://github.com/toleksa/cicd.git', branch: 'main'
+                        sh 'ls -la'
+                        sh 'cat ${SUBDIR}/Dockerfile'
+                    }
+                }
+                stage('Build'){
+                    steps{
+                        sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} -f ${SUBDIR}/Dockerfile ${SUBDIR}/ '
+                        sh 'docker tag ${IMAGE}:${BUILD_NUMBER} ${IMAGE}:latest '
+                        sh 'docker images'
+                    }
+                }
+                stage('Build2'){
+                    steps{
+                        script{
+                            docker_image = docker.build("${IMAGE}:${BUILD_NUMBER}-2","${SUBDIR}")
+                        }
+                        sh 'docker images'
+                    }
+                }
+            }
+        }
+        stage('Test') { 
+            agent {
+                docker {
+                    image "${IMAGE}:${BUILD_NUMBER}"
+                    //args '--entrypoint='
+                    //args '--entrypoint="/usr/bin/python3 -m http.server 80"'
+                }
+            }
+            steps{
+                sh 'cat /etc/os-release' 
+                sh 'hostname'
+                sh 'ls -la /www'
+                sh 'nc -z localhost 80'
+            }
+        }
+        stage('Publish'){
+            steps{
+                script {
+                    docker.withRegistry( '', 'dockerhub' ) {
+                        docker_image.push()
+                        docker_image.push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
+
