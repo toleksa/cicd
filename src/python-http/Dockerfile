@@ -7,7 +7,8 @@ STOPSIGNAL SIGTERM
 
 WORKDIR /www
 COPY www/* ./
-#ENTRYPOINT python3 -m http.server 80
-#CMD sh
-CMD python3 -m http.server 80
+#TODO: should use CMD, but Jenkins fails
+ENTRYPOINT python3 -m http.server 80
+CMD sh
+#CMD python3 -m http.server 80
 
