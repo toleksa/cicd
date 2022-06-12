@@ -34,7 +34,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') { 
+        stage('Containter Test') { 
             agent {
                 docker {
                     image "${IMAGE}:${BUILD_NUMBER}"
@@ -49,6 +49,15 @@ pipeline {
                 sh 'nc -z localhost 80'
             }
         }
+        stage('Webserver test') {
+          steps {
+            script {
+              docker.image("${IMAGE}:${BUILD_NUMBER}").withRun('-p 8888:80') {
+                sh 'curl localhost:8888'
+              }
+            }
+          }
+        }   
         stage('Publish'){
             steps{
                 script {
