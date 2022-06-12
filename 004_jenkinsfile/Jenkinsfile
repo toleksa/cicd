@@ -39,7 +39,7 @@ pipeline {
                 docker {
                     image "${IMAGE}:${BUILD_NUMBER}"
                     //args '--entrypoint='
-                    //args '--entrypoint="/usr/bin/python3 -m http.server 80"'
+                    args '--entrypoint="/usr/bin/python3 -m http.server 80"'
                 }
             }
             steps{
