@@ -17,7 +17,7 @@ pipeline {
                         sh 'cat ${SUBDIR}/Dockerfile'
                     }
                 }
-                stage('Build'){
+                stage('Build1'){
                     steps{
                         sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} -f ${SUBDIR}/Dockerfile ${SUBDIR}/ '
                         sh 'docker tag ${IMAGE}:${BUILD_NUMBER} ${IMAGE}:latest '
