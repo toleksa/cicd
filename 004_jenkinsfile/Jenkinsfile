@@ -17,6 +17,12 @@ pipeline {
                         sh 'cat ${SUBDIR}/Dockerfile'
                     }
                 }
+                stage('Unit Test'){
+                    steps{
+                        sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888"'
+                        sh 'pytest ${SUBDIR}/www/test_mock.py'
+                    }
+                }
                 stage('Build1'){
                     steps{
                         sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} -f ${SUBDIR}/Dockerfile ${SUBDIR}/ '
