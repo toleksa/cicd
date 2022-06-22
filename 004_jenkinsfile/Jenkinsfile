@@ -19,6 +19,7 @@ pipeline {
                 }
                 stage('Unit Test'){
                     steps{
+                        sh 'echo "yeah, this test makes completely no sense :D"'
                         sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888 &'
                         sh 'pytest-3 ${SUBDIR}/www/test_mock.py'
                     }
