@@ -20,7 +20,7 @@ pipeline {
                 stage('Unit Test'){
                     steps{
                         sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888 &'
-                        sh 'pytest ${SUBDIR}/www/test_mock.py'
+                        sh 'pytest-3 ${SUBDIR}/www/test_mock.py'
                     }
                 }
                 stage('Build1'){
