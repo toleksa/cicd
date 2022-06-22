@@ -21,8 +21,8 @@ pipeline {
                     steps{
                         sh 'echo "yeah, this test makes completely no sense :D"'
                         //requires: apt install python3-pytest-localserver 
-                        sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888 &'
-                        sh 'bash -c "source ${SUBDIR}/www/pytest/bin/activate ; pytest ${SUBDIR}/www/test_mock.py"'
+                        //sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888 &'
+                        //sh 'pytest-3 ${SUBDIR}/www/test_mock.py"'
                     }
                 }
                 stage('Build1'){
