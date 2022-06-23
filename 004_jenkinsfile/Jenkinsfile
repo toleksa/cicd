@@ -20,9 +20,12 @@ pipeline {
                 stage('Unit Test'){
                     steps{
                         sh 'echo "yeah, this test makes completely no sense :D"'
-                        //requires: apt install python3-pytest-localserver 
                         //sh 'cd ${SUBDIR} ; /usr/bin/python3 -m http.server 8888 &'
-                        //sh 'pytest-3 ${SUBDIR}/www/test_mock.py"'
+                        //sh 'python3 -m venv pytest'
+                        //sh 'source pytest/bin/activate'
+                        //sh 'pip install pytest-httpserver'
+                        //sh 'python3 -m pytest ${SUBDIR}/www/test_mock.py"'
+                        //sh 'python3 -m pytest ${SUBDIR}/www/test_web.py"'
                     }
                 }
                 stage('Build1'){
