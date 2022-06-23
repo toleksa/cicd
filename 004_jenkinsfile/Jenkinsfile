@@ -73,7 +73,7 @@ pipeline {
         stage('External Test') {
           steps {
             script {
-              network_name = ${BUILD_TAG}
+              network_name = "${BUILD_TAG}"
               sh "docker network create ${networkName}"
               docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${networkName} --hostname webserver") {
                 pytest_image = docker.build('pytest','src/pytest')
