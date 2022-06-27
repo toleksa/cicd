@@ -64,7 +64,7 @@ pipeline {
           steps {
             script {
               docker.image("${IMAGE}:${BUILD_NUMBER}").withRun('-p 8888:80') {
-                sh 'curl localhost:8888'
+                sh 'curl --retry 3 localhost:8888'
                 sh 'curl localhost:8888/logo.png -o /dev/null'
               }
             }
