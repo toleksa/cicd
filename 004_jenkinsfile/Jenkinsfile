@@ -78,7 +78,6 @@ pipeline {
               docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${network_name} --hostname webserver") {
                 pytest_image = docker.build('pytest','src/pytest')
                 pytest_image.inside("--network ${network_name}") {
-                  sh 'whoami'
                   sh 'pytest --junit-xml=test_web_result.xml /pytest/test_web.py'
                   sh 'cat'
                 }
