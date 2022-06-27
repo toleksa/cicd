@@ -103,6 +103,7 @@ pipeline {
                 sh '''#!/bin/bash
                       for IMG in $(docker images | grep 004_jenkinsfile | sort -r | tail -n +6 | gawk '{ print $1":"$2 }') ; do docker rmi $IMG ; done
                 '''
+                sh 'docker images'
             }
         }        
     }
