@@ -106,7 +106,7 @@ pipeline {
                       for IMG in $(docker images | grep ${IMAGE} | sort -r | tail -n +6 | gawk '{ print $1":"$2 }') ; do docker rmi $IMG ; done
                 '''
                 sh '''#!/bin/bash
-                      for IMG in $(docker images | grep pytest: | sort -r | tail -n +6 | gawk '{ print $1":"$2 }') ; do docker rmi $IMG ; done
+                      for IMG in $(docker images | grep pytest | sort -r | tail -n +6 | gawk '{ print $1":"$2 }') ; do docker rmi $IMG ; done
                 '''
                 sh 'docker images'
             }
