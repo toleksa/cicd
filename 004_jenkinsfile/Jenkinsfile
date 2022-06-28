@@ -39,7 +39,7 @@ pipeline {
                 stage('Build2'){
                     steps{
                         script{
-                            docker_image = docker.build("${IMAGE}:${BUILD_NUMBER}-2","${SUBDIR}")
+                            docker_image = docker.build("${IMAGE}:${BUILD_NUMBER}","${SUBDIR}")
                             docker_image.tag('latest')
                         }
                         sh 'docker images'
