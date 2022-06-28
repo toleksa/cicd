@@ -80,7 +80,7 @@ pipeline {
               sh "docker network create ${network_name}"
               docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${network_name} --hostname webserver") {
                 pytest_image = docker.build("${IMAGE}-pytest:${BUILD_NUMBER}","src/pytest")
-                pytest_image.tag("${IMAGE}-pytest:latest")
+                pytest_image.tag("latest")
                 pytest_image.inside("--network ${network_name}") {
                   sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_web_result.xml /pytest/test_web.py'
                 }
