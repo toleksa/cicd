@@ -90,6 +90,8 @@ pipeline {
           }
           post {
             always {
+              ChecksPublisher publisher = ChecksPublisherFactory.fromRun(run);
+              publisher.publish(details);
               junit '**/**test_web_result.xml'
             }
           }
