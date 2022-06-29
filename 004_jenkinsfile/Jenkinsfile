@@ -88,6 +88,11 @@ pipeline {
               sh "docker network rm ${network_name}"
             }
           }
+          post {
+            always {
+              junit '**/**test_web_result.xml'
+            }
+          }
         }
         stage('Publish'){
             steps{
