@@ -1,3 +1,14 @@
+//https://www.kabisa.nl/tech/running-multiple-docker-containers-in-parallel-with-jenkins/
+def withDockerNetwork(Closure inner) {
+  try {
+    networkId = UUID.randomUUID().toString()
+    sh "docker network create ${networkId}"
+    inner.call(networkId)
+  } finally {
+    sh "docker network rm ${networkId}"
+  }
+}
+
 pipeline {
     environment {
         IMAGE = "toleksa/${JOB_NAME}"
@@ -75,17 +86,31 @@ pipeline {
         }   
         stage('External Test') {
           steps {
+            //script {
+            //  network_name = "${BUILD_TAG}"
+            //  sh "docker network create ${network_name}"
+            //  docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${network_name} --hostname webserver") {
+            //    pytest_image = docker.build("${IMAGE}-pytest:${BUILD_NUMBER}","src/pytest")
+            //    pytest_image.tag("latest")
+            //    pytest_image.inside("--network ${network_name}") {
+            //      sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_web_result.xml /pytest/test_web.py'
+            //    }
+            //  }
+            //  sh "docker network rm ${network_name}"
+            //}
             script {
-              network_name = "${BUILD_TAG}"
-              sh "docker network create ${network_name}"
-              docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${network_name} --hostname webserver") {
-                pytest_image = docker.build("${IMAGE}-pytest:${BUILD_NUMBER}","src/pytest")
-                pytest_image.tag("latest")
-                pytest_image.inside("--network ${network_name}") {
-                  sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_web_result.xml /pytest/test_web.py'
+              def database = docker.build("database", "database")
+              def app = docker.build("app", "-f dockerfiles/ci/Dockerfile .")
+
+              withDockerNetwork{ n ->
+                docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${n} --hostname webserver") { c ->
+                  pytest_image = docker.build("${IMAGE}-pytest:${BUILD_NUMBER}","src/pytest")
+                  pytest_image.tag("latest")
+                  pytest_image.inside("--network ${n}") {
+                    sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_web_result.xml /pytest/test_web.py'
+                  }
                 }
               }
-              sh "docker network rm ${network_name}"
             }
           }
           post {
