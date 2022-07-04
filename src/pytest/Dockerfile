@@ -1,4 +1,4 @@
-FROM alpine:3.15.0
+FROM alpine:3.16.0
 RUN apk add --no-cache python3 py3-pytest py3-requests
 
 WORKDIR /pytest
