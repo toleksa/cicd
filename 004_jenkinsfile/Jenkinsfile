@@ -99,9 +99,6 @@ pipeline {
             //  sh "docker network rm ${network_name}"
             //}
             script {
-              def database = docker.build("database", "database")
-              def app = docker.build("app", "-f dockerfiles/ci/Dockerfile .")
-
               withDockerNetwork{ n ->
                 docker.image("${IMAGE}:${BUILD_NUMBER}").withRun("-p 8888:80 --network ${n} --hostname webserver") { c ->
                   pytest_image = docker.build("${IMAGE}-pytest:${BUILD_NUMBER}","src/pytest")
