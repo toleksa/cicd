@@ -7,7 +7,9 @@ def test_server_is_alive():
 def test_server_logo():
     response = requests.get("http://webserver/logo.png")
     assert response.status_code == 200
-    assert len(response.content) == 100
+    assert len(response.content) == 11543
+    assert response.ok
+    assert response.is_redirect == False
 
 def test_server_404():
     response = requests.get("http://webserver/foobar")
