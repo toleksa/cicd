@@ -10,5 +10,5 @@ def test_server_logo():
 
 def test_server_404():
     response = requests.get("http://webserver/foobar")
-    assert response.status_code == 200
+    assert response.status_code == 404
 
