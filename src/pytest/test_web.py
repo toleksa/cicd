@@ -1,5 +1,8 @@
 import requests
 
+# methods in requests object:
+# https://www.w3schools.com/python/ref_requests_response.asp
+
 def test_server_is_alive():
     response = requests.get("http://webserver/")
     assert response.status_code == 200
