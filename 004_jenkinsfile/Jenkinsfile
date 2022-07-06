@@ -116,6 +116,20 @@ pipeline {
             }
           }
         }
+        stage('Trivy test') {
+          steps {
+            script {
+              trivyImage = docker.image('aquasec/trivy:latest')
+              trivyImage.inside("--entrypoint= -u root") {
+                sh '''trivy image \
+                            --format=json \
+                            -o results.json \
+                            ${IMAGE}:${BUILD_NUMBER}'''
+              }
+              recordIssues(tools: [trivy(pattern: 'results.json')])
+            }
+          }
+        }
         stage('Publish'){
             steps{
                 script {
