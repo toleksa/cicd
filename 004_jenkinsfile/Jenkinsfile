@@ -116,7 +116,7 @@ pipeline {
             }
           }
         }
-        # requires Jenkins plugin https://plugins.jenkins.io/warnings-ng/
+        // requires Jenkins plugin https://plugins.jenkins.io/warnings-ng/
         stage('Trivy test') {
           steps {
             script {
