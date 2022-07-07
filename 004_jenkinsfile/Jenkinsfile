@@ -1,5 +1,5 @@
-//https://www.kabisa.nl/tech/running-multiple-docker-containers-in-parallel-with-jenkins/
 def withDockerNetwork(Closure inner) {
+//https://www.kabisa.nl/tech/running-multiple-docker-containers-in-parallel-with-jenkins/
   try {
     networkId = UUID.randomUUID().toString()
     sh "docker network create ${networkId}"
@@ -36,15 +36,7 @@ pipeline {
               }
             }
         }
-        stage('Build1'){
-            steps{
-                //sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} -f ${SUBDIR}/Dockerfile ${SUBDIR}/ '
-                //sh 'docker tag ${IMAGE}:${BUILD_NUMBER} ${IMAGE}:latest '
-                //sh 'docker images'
-                sh 'echo "step disabled"'
-            }
-        }
-        stage('Build2'){
+        stage('Build'){
             steps{
                 script{
                     docker_image = docker.build("${IMAGE}:${BUILD_NUMBER}","${SUBDIR}")
@@ -79,7 +71,7 @@ pipeline {
             }
           }
         }   
-        stage('External Test') {
+        stage('Integration Test') {
           steps {
             //script {
             //  network_name = "${BUILD_TAG}"
@@ -111,7 +103,7 @@ pipeline {
             }
           }
         }
-        stage('Trivy test') {
+        stage('Security Test') {
         // requires Jenkins plugin https://plugins.jenkins.io/warnings-ng/
           steps {
             script {
