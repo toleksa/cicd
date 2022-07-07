@@ -40,6 +40,11 @@ pipeline {
                         sh 'cd ${SUBDIR} ; python3 -m pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_unit_result.xml test_unit.py'
                     }
                 }
+                post {
+                  always {
+                    junit '**/**test_unit_result.xml'
+                  }
+                }
                 stage('Build1'){
                     steps{
                         //sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} -f ${SUBDIR}/Dockerfile ${SUBDIR}/ '
