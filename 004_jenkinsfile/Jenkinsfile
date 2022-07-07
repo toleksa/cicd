@@ -43,7 +43,6 @@ pipeline {
                     docker_image.tag('latest')
                 }
                 sh 'docker images'
-                //sh 'echo "step disabled"'
             }
         }
         stage('Internal Test') { 
