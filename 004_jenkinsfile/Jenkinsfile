@@ -39,11 +39,11 @@ pipeline {
                         //sh 'python3 -m pytest ${SUBDIR}/www/test_web.py"'
                         sh 'cd ${SUBDIR} ; python3 -m pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_unit_result.xml test_unit.py'
                     }
-                }
-                post {
-                  always {
-                    junit '**/**test_unit_result.xml'
-                  }
+                    post {
+                      always {
+                        junit '**/**test_unit_result.xml'
+                      }
+                    }
                 }
                 stage('Build1'){
                     steps{
