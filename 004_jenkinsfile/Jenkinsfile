@@ -44,7 +44,7 @@ pipeline {
                   pytest_unit_image = docker.build("${IMAGE}-pytest-unit:${BUILD_NUMBER}","-f src/pytest/unit/Dockerfile .")
                   pytest_unit_image.tag("latest")
                   pytest_unit_image.inside("--network ${n}") {
-                    sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_unit_result.xml /www/test_unit.py'
+                    sh 'pytest -o cache_dir=/tmp/.pytest_cache --junit-xml=test_unit_result.xml /pytest/test_unit.py'
                   }
                 }
               }
