@@ -54,6 +54,7 @@ pipeline {
                 junit '**/**test_unit_result.xml'
               }
             }
+          }
         }
         stage('Internal Test') { 
             agent {
