@@ -52,7 +52,7 @@ pipeline {
           }
           post {
             always {
-              junit '/tmp/test_unit_result.xml'
+              junit '**/**/tmp/test_unit_result.xml'
             }
           }
         }
@@ -109,7 +109,7 @@ pipeline {
           }
           post {
             always {
-              junit '/tmp/test_web_result.xml'
+              junit '**/**/tmp/test_web_result.xml'
             }
           }
         }
